@@ -6,7 +6,6 @@ const CONFIG = {
     role: "software engineer",
     bio: "Daily & Dev",
     email: "ycj123z@kakao.com",
-    linkedin: "철중-윤-b5322524b",
     github: "Yooncoding",
     instagram: "y_steel.ing",
   },
