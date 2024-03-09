@@ -5,7 +5,7 @@ import Header from "./Header"
 import styled from "@emotion/styled"
 import Scripts from "src/layouts/RootLayout/Scripts"
 import useGtagEffect from "./useGtagEffect"
-import useThrottle from "src/hooks/useThrottle"
+import useDebounce from "src/hooks/useDebounce"
 import { useRouter } from "next/router"
 
 type Props = {
@@ -17,24 +17,24 @@ const RootLayout = ({ children }: Props) => {
   const currentElementRef = useRef<HTMLDivElement | null>(null)
 
   const [blogHeight, setBlogHeight] = useState(0)
-  const [throttleScrollY, setThrottleScrollY] = useState<number>(0)
+  const [debounceScrollY, setDebounceScrollY] = useState<number>(0)
   const [scheme] = useScheme()
-  console.log(throttleScrollY)
+
   useGtagEffect()
 
-  const scrollThrottle = useThrottle(() => {
-    setThrottleScrollY(window.scrollY)
-  }, 100)
+  const scrollDebounce = useDebounce(() => {
+    setDebounceScrollY(window.scrollY)
+  }, 200)
 
   const getCurrentPercentage = () => {
     if (router.asPath === "/") return 0
 
-    let percentage = Math.ceil((throttleScrollY / blogHeight) * 100)
+    let percentage = Math.ceil((debounceScrollY / blogHeight) * 100)
 
     if (percentage >= 90) {
       percentage = 100
     } else {
-      percentage = Math.ceil((throttleScrollY / blogHeight) * 100)
+      percentage = Math.ceil((debounceScrollY / blogHeight) * 100)
     }
     return percentage
   }
@@ -45,9 +45,9 @@ const RootLayout = ({ children }: Props) => {
       setBlogHeight(clientHeight)
     }
 
-    window.addEventListener("scroll", scrollThrottle)
-    return () => window.removeEventListener("scroll", scrollThrottle)
-  }, [throttleScrollY])
+    window.addEventListener("scroll", scrollDebounce)
+    return () => window.removeEventListener("scroll", scrollDebounce)
+  }, [debounceScrollY])
 
   return (
     <ThemeProvider scheme={scheme}>
