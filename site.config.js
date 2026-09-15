@@ -19,6 +19,7 @@ const CONFIG = {
   blog: {
     title: "Auditorium",
     description: "일상과 개발을 공유해요",
+    scheme: "system", // 'light' | 'dark' | 'system'
   },
 
   // CONFIG configration (required)
