@@ -2,7 +2,6 @@ import styled from "@emotion/styled"
 import { keyframes } from "@emotion/react"
 import { useEffect } from "react"
 import { createPortal } from "react-dom"
-import { Emoji } from "src/components/Emoji"
 import { zIndexes } from "src/styles/zIndexes"
 
 type Props = {
@@ -35,7 +34,9 @@ const UnderConstructionModal: React.FC<Props> = ({ open, onClose }) => {
         aria-labelledby="under-construction-title"
         onClick={(e) => e.stopPropagation()}
       >
-        <Emoji className="icon">🚧</Emoji>
+        <span className="icon" aria-hidden="true">
+          🚧
+        </span>
         <div className="title" id="under-construction-title">
           블로그 공사중입니다
         </div>
@@ -96,6 +97,10 @@ const StyledOverlay = styled.div`
     font-size: 2.5rem;
     line-height: 1;
     margin-bottom: 1rem;
+    /* 기기 기본 이모지 폰트로 그린다 — next/font Noto(COLRv1)는 일부 모바일
+       Safari에서 빈칸으로 나오므로 이 아이콘만큼은 폰트에 의존하지 않는다 */
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji",
+      "Segoe UI Symbol", sans-serif;
   }
   .title {
     font-size: 1.125rem;
